@@ -26,4 +26,6 @@ Steps:
 3. Create a sort function with the algorithm provided. Except have it call the printValues function after each swap.
 
 4. Create a printValues function that will print out the values array.
-	a. 
+	a. Print a left bracket
+	b. Loop through the values array, printing out each element
+	c. Print a right bracket 
