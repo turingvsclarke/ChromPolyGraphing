@@ -23,10 +23,10 @@ void printValues(){
  // This function does the heavy lifting, taking in an array and using swap to order it
 void swap(int* a, int* b){
 
-	
-
-	
-
+	int* c = a;
+	int* d = b;
+	a = d;
+	b = c;		
 
 } // end swap function
 
