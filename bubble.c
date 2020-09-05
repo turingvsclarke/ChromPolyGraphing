@@ -14,32 +14,56 @@ void printValues(){
 	printf("] \n");
 }  // end printValues function
 
+// This function swaps two values in the values array
+ void swap(int* a, int* b){
+	int a_value = *a;
+	int b_value = *b;
+	
+	if (a > b){ 
+		a--;
+		b++; 
+	}
 
-// This function does the heavy lifting, using swap on every pair of elements in the array
-//void sort(){}
-
+	else {
+		a++;
+		b--;
+	}	
 	
 
- // This function does the heavy lifting, taking in an array and using swap to order it
-void swap(int* a, int* b){
-
-	int* c = a;
-	int* d = b;
-	a = d;
-	b = c;		
+	values[a-values]=a_value;
+	values[b-values]=b_value;
 
 } // end swap function
 
+
+
+
+// This function does the heavy lifting, using swap on every pair of elements in the array
+void sort(){
+	int i = 0;
+	int j = 0;
+	for (i=0; i < MAX; i++){
+		for (j=0; j<MAX-1; j++){
+			if (values[j]<values[j+1]){
+				swap(&values[j],&values[j+1]);
+				printValues();
+	
+			}
+		} 
+	}
+} // end sort function
+
+
+ // This function does the heavy lifting, taking in an array and using swap to order it
 
 
 int main(){
 	
 	printf("Before: \n");
 	printValues();
-	//sort();
+	sort();
 	printf("After: \n");
-	//printValues();
-
+	printValues();
 	return(0);
 
 } // end of main 
