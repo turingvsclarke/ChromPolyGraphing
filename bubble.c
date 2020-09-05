@@ -35,9 +35,6 @@ void printValues(){
 
 } // end swap function
 
-
-
-
 // This function does the heavy lifting, using swap on every pair of elements in the array
 void sort(){
 	int i = 0;
@@ -53,10 +50,7 @@ void sort(){
 	}
 } // end sort function
 
-
- // This function does the heavy lifting, taking in an array and using swap to order it
-
-
+// This is the main function as given by Andy Harris
 int main(){
 	
 	printf("Before: \n");
