@@ -1,0 +1,31 @@
+Pointers and Bubbles Algorithm
+Ryan Eades
+
+Goals: 
+Use Andy's starter code to create a program that can output an ordered array. For the base assignment, this will have been assigned within the program. 
+
+Input(main function): None for base assignment. 
+Output(main function): Two strings. One to preface the original array being printed and one to preface the final array being printed.
+
+Input(printValues function): No values passed to the function in the base assignment. It will use the global variable values(the array of numbers).
+Output(printValues function): No return value. Within the function it prints the values array.
+
+Input(sort function): 
+Output(sort function):
+
+Input(swap function): Two pointers are passed to it. 
+Output(swap function): The pointers are outputted, having been swapped
+
+Steps:
+1. Create a main function exactly like Andy's.
+
+2. Create a swap function that takes two pointers and swaps them
+	a. Assign each pointer to a variable.(these variables should stay the same within the whole function)  
+	b. Assign the second pointer's value to the value at the pointer to the first pointer and vice versa.
+	
+3. Create a sort function with the algorithm provided. Except have it call the printValues function after each swap.
+
+4. Create a printValues function that will print out the values array.
+	a. Print left bracket
+	b. Loop through the values array printing out each value
+	c. Print right bracket 
