@@ -1,7 +1,7 @@
 Ryan Eades
 File I/O
 
-Main function: The main function will be comprised of variable declaration, opening the input and output files, and a while loop that loops through the input file.
+Main function: The main function will start with declaring all variables used in the various local loops and procedures described below. The majority of the main function is a while loop whose sentry variable is a boolean indicating whether or not the input file still has more lines. This while loop will input two lines of the input file at a time, converting them into the correct line to add to the output file.
 	
 	1. Input
 
