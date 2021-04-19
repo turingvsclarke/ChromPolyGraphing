@@ -2,11 +2,15 @@
 // This class will be a class of all our vertices.
 import java.util.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Vertex{
 
 	private final int x;
 	private final int y;
+
+	public ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
+
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args){
@@ -30,12 +34,18 @@ public class Vertex{
 			System.out.print("Vertex " + a + ": ");
 			((Vertex)vertices.get(a)).printCoordinates();
 		}
-	}
+	} // end main
+
+	public Vertex(){
+		x = 0;
+		y = 0;
+		// for testing purposes only
+	} // end null constructor
 
 	public Vertex(int x,int y){
 		this.x = x;
-		this.y = y;	
-	}
+		this.y = y;
+	} // end all constructor
 
 	public int getX(){
 		return x;
@@ -44,11 +54,46 @@ public class Vertex{
 	public int getY(){
 		return y;
 	}
-	
+
 	public void printCoordinates(){
 		int x = this.getX();
 		int y = this.getY();
 		System.out.println("("+x+","+y+")");
+	}
+
+	public ArrayList<Vertex> getNeighbors(){
+		return this.neighbors;
+	}
+
+	public Vertex firstNeighbor(){
+		neighbors = this.getNeighbors();
+
+		if(neighbors.size()>0){
+			return (Vertex)neighbors.get(0);
+		}
+		else{
+			return null;
+		}
+
+	} // end firstNeighbor
+
+	public void addNeighbor(Vertex v){
+		// Add a new neighbor if it isn't the current vertex or already a neighbor
+		if((!this.equals(v)) && neighbors.indexOf(v)==-1){
+			neighbors.add(v);
+		}
+	} // end addNeighbor
+
+	public void removeNeighbor(Vertex v){
+		this.neighbors.remove(v);
+	} // end removeNeighbor
+
+	public boolean hasNeighbors(){
+		boolean hasNeighbors = true;
+		if(this.firstNeighbor()==null){
+			hasNeighbors = false;
+		}
+		return hasNeighbors;
 	}
 
 }   // end class def
