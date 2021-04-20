@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Vertex{
+public class Vertex implements Cloneable{
 
 	private final int x;
 	private final int y;
@@ -14,6 +14,18 @@ public class Vertex{
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args){
+		Vertex v1 = new Vertex(0,1);
+		Vertex v2 = new Vertex(1,1);
+		Vertex v3 = new Vertex(2,2);
+		v1.addNeighbor(v2);
+		v1.addNeighbor(v3);
+		v2.addNeighbor(v3);
+		v1.updateNeighbors();
+		v2.updateNeighbors();
+		v3.updateNeighbors();
+		Vertex v4 = v1.clone();
+
+		/***
 		Vertex V1 = new Vertex(0,1);
 		Vertex V2 = new Vertex(1,2);
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
@@ -34,7 +46,49 @@ public class Vertex{
 			System.out.print("Vertex " + a + ": ");
 			((Vertex)vertices.get(a)).printCoordinates();
 		}
+		***/
 	} // end main
+
+	public Vertex clone(){
+		try{
+		// Start with a shallow copy of yourself(the list of neighbors will be the same)
+		Vertex v2 = (Vertex)super.clone();
+
+		// Make the clone's array of neighbors a shallow copy of your array of neighbors
+		ArrayList neighbors = (ArrayList)this.getNeighbors().clone();
+		v2.neighbors = neighbors;
+
+		// Remove yourself from everyone else's list of neighbors
+		for(int i=0;i<neighbors.size();i++){
+			Vertex neighbor = (Vertex)neighbors.get(i);
+			neighbor.removeNeighbor(this);
+		}
+		// Clone all your neighbors and add them to your clone's list of neighbors
+		for(int vertex = 0; vertex<neighbors.size();vertex++){
+			// check to see if you've already cloned your neighbor
+			// pick the next neighbor on your list
+			Vertex neighbor = (Vertex)neighbors.get(vertex);
+			// check to see if any previous neighbors had that as a neighbor
+
+				// if they do have that neighbor, grab your clone of that neighbor and transfer the neighbor
+				if(previousNeighbor contains(neighbor)){
+
+				}
+
+
+			// clone THAT neighbor
+			Vertex v = (Vertex)neighbor.clone();
+			v2.getNeighbors().set(vertex,v);
+		} // end while
+
+		v2.updateNeighbors();
+
+		return v2;
+		}catch(Exception e){
+			return null;
+		}
+	} // end clone
+
 
 	public Vertex(){
 		x = 0;
@@ -76,6 +130,16 @@ public class Vertex{
 		}
 
 	} // end firstNeighbor
+
+	// make sure all your neighbors count you as a neighbor
+	public void updateNeighbors(){
+		ArrayList neighbors = this.getNeighbors();
+		for(int i=0;i<neighbors.size();i++){
+			Vertex neighbor = (Vertex)neighbors.get(i);
+			// add yourself to that neighbor's list of neighbors
+			neighbor.addNeighbor(this);
+		}
+	} // end updateNeighbors
 
 	public void addNeighbor(Vertex v){
 		// Add a new neighbor if it isn't the current vertex or already a neighbor
