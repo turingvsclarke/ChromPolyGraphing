@@ -3,9 +3,11 @@ runGUI: FinalProjectGUI.class
 
 runGraph: Graph.class
 	java Graph
+debugGraph: Graph.class
+	jdb Graph
 
 Graph.class: Graph.java Vertex.class
-	javac Graph.java
+	javac -g Graph.java
 
 Vertex.class: Vertex.java
 	javac Vertex.java

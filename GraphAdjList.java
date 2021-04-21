@@ -1,8 +1,12 @@
 // Graph.java
 import java.util.ArrayList;
 
-public class Graph extends ArrayList implements Cloneable{
+public class Graph extends ArrayList{
     String chromPoly="";
+    Graph g1;
+    Graph g2;
+    String rmvEdge;
+    String cllpsEdge;
 
     public static void main(String[] args){
         Graph g = new Graph();
@@ -12,10 +16,24 @@ public class Graph extends ArrayList implements Cloneable{
         g.addVertex(v1);
         g.addVertex(v2);
         g.addVertex(v3);
+        Graph g2 = (Graph)g.clone();
+        g2.printVertices();
         g.addEdge(v1,v2);
         g.addEdge(v1,v3);
         g.addEdge(v2,v3);
+
         System.out.println(g.getChromPoly());
+    }
+
+    public Graph clone(){
+        Graph g2 = (Graph)super.clone();
+        for(int vertex=0;vertex<this.size();vertex++){
+            Vertex v = (Vertex)this.get(vertex);
+            Vertex copy = v.clone();
+            g2.set(vertex,copy);
+        }
+        return g2;
+        // Deep clone(clone all the vertices of the graph)
     }
 
     // TESTING ONLY
@@ -92,10 +110,10 @@ public class Graph extends ArrayList implements Cloneable{
 
     // Chromatic Polynomial Calculations using recursion
     public String getChromPoly(){
-
+        String chromPoly="";
         // This checks if the graph has no edges(note that it must have at least two vertices to have an edge)
         if(!(this.hasEdges())){
-            this.chromPoly = "q^" + String.valueOf(this.size());
+            chromPoly = "q^" + String.valueOf(this.size());
         } // end if
          // If there are still edges, compute the polynomial of them
         else{
@@ -120,17 +138,17 @@ public class Graph extends ArrayList implements Cloneable{
             } // end while
 
             this.removeEdge(v1,v2);
-            String rmvEdge = this.getChromPoly();
+            g1 = (Graph)this.clone();
+            rmvEdge = g1.getChromPoly();
 
             this.collapseEdge(v1,v2);
-            String cllpsEdge = this.getChromPoly();
+            g2 = (Graph)this.clone();
+            cllpsEdge = g2.getChromPoly();
 
-            this.chromPoly= "("+rmvEdge+"-"+cllpsEdge+")";
-            g1 = null;
-            g2 = null;
+            chromPoly= "("+rmvEdge+"-"+cllpsEdge+")";
         } // end else
 
-        return this.chromPoly;
+        return chromPoly;
     } // end getChromPoly
 
 } // end class def
