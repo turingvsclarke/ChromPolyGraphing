@@ -12,15 +12,10 @@ public class Edge implements Cloneable{
 	}
 
 	public Edge clone(){
-		try{
-			Edge e = (Edge)super.clone();
-			Vertex v1Clone = (Vertex)this.V1.clone();
-			Vertex v2Clone = (Vertex)this.V2.clone();
-			return new Edge(v1Clone,v2Clone);}
-		catch(Exception e){
-			// We'll never end up here, since every Edge will already have checked for the exception in the constructor
-			return this;	
-		}
+		Vertex v1Clone = (Vertex)this.V1.clone();
+		Vertex v2Clone = (Vertex)this.V2.clone();
+		return new Edge(v1Clone,v2Clone);
+
 
 	} // end clone
 
