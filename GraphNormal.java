@@ -34,6 +34,11 @@ public class GraphNormal implements Cloneable{
 	GraphNormal g2 = g.clone();
 	g.printEdges();
 	g2.printEdges();
+	g2.removeEdge(g2.getEdge(0));
+	g.printEdges();
+	g2.printEdges();
+
+
 
     } // end main
 
@@ -110,16 +115,21 @@ public class GraphNormal implements Cloneable{
         } // end if
     } // end addVertex
 
-    public void removeVertex(Vertex v){
-	boolean noEdges = true;
+    public void removeVertex(Vertex v) throws HasEdgeException{
+	boolean inEdge = false;
+	// Check each edge for the vertex
 	for(int i=0;i<this.Edges.size();i++){
 		Edge e = this.getEdge(i);
+		// Stop looking if the edge has that vertex
 		if(e.containsVertex(v)){
-			i = this.Edges.size();
-			noEdges = false;
+			inEdge = true;
+			break;
 		} // end if
 	} // end for
-	if(noEdges){
+	if(inEdge){
+		throw new HasEdgeException();
+	}
+	else{
 		this.Vertices.remove(v);
 	}
     } // end removeVertex
@@ -166,13 +176,11 @@ public class GraphNormal implements Cloneable{
 		return this.Vertices;
 	} // end getVertices
 
-/***
-    public void removeEdge(Vertex v1, Vertex v2){
-        // remove ech vertex from each other's list of neighbors
-        v1.removeNeighbor(v2);
-        v2.removeNeighbor(v1);
+    public void removeEdge(Edge e){
+	this.getEdges().remove(e);
+	
     } // end removeEdge
-
+/***
     public void collapseEdge(Vertex v1, Vertex v2){
         // Make v1 and v2 the same point(so transfer any neighbors you have to)
 
@@ -255,4 +263,9 @@ public class GraphNormal implements Cloneable{
         return chromPoly;
     } // end getChromPoly
 ***/
+
+public class HasEdgeException extends Exception{} // end class def
+
+
+
 } // end class def
