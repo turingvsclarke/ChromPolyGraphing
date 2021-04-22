@@ -11,14 +11,12 @@ public class GraphNormal implements Cloneable{
         // Testing creating a new edge and cloning it.
 	GraphNormal g = new GraphNormal();
 	// Add fifty new vertices and 15 edges to the graph
-	for(int i=0;i<15;i++){
+	for(int i=0;i<7;i++){
 		// Get random integers between 0 and 100
 		int x1 = (int)(Math.random()*99);
 		int y1 = (int)(Math.random()*99);
 		g.addVertex(new Vertex(x1,y1));
 	} // end for	
-	
-	g.printVertices();
 
 	int vertices = g.getVertices().size();	
 
@@ -32,17 +30,10 @@ public class GraphNormal implements Cloneable{
 		g.addEdge(v1,v2);
 	} // end for
 
-	// Trying to add the same edge twice
-	Vertex v1 = g.getVertex(0);
-	Vertex v2 = g.getVertex(1);
-	g.addEdge(v1,v2);
 
-	v1 = g.getVertex(1);
-	v2 = g.getVertex(0);
-	g.addEdge(v1,v2);
-
+	GraphNormal g2 = g.clone();
 	g.printEdges();
-
+	g2.printEdges();
 
     } // end main
 
@@ -75,11 +66,11 @@ public class GraphNormal implements Cloneable{
 		    int v2Index = this.Vertices.indexOf(edgeV2);
                     // if we haven't cloned this vertex's counterpart in the edge, don't do anything. Otherwise, add an edge with both clones
                     if(edgeV2.equals(v) && v1Index<vertex){
-			Vertex v1Clone = (Vertex)g2.Vertices.get(v1Index);
+			Vertex v1Clone = (Vertex)g2.getVertices().get(v1Index);
                         g2.addEdge(vclone,v1Clone);
                     } // end if
                     else if(edgeV1.equals(v) && v2Index<vertex){
-			Vertex v2Clone = (Vertex)g2.Edges.get(v2Index);
+			Vertex v2Clone = (Vertex)g2.getVertices().get(v2Index);
                         g2.addEdge(vclone,v2Clone);
                     } // end else if
                 } // end if
@@ -132,6 +123,13 @@ public class GraphNormal implements Cloneable{
 		this.Vertices.remove(v);
 	}
     } // end removeVertex
+
+    public boolean containsVertex(Vertex v){
+	ArrayList vertices = this.getVertices();
+	boolean containsVertex = vertices.contains(v); 
+	return containsVertex;
+
+    } // end containsVertex
 
     public void addEdge(Vertex v1, Vertex v2){
 	// Make sure the edge isn't already there
