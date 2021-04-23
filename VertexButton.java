@@ -16,10 +16,9 @@ public class VertexButton extends JButton{
 		
 		int h = this.getHeight();
 		int w = this.getWidth();
-		Point lCorner = this.getLocation();
-		int x = (int)lCorner.getX();
-		int y = (int)lCorner.getY();
-		g.fillOval(x,y,this.getHeight(),this.getWidth());
+		int x = this.getX();
+		int y = this.getY();
+		g.fillOval(x,y,w,h);
 
 	} // end paintComponent
 

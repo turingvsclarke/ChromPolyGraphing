@@ -11,6 +11,13 @@ public class FinalProjectGUI extends BasicSwing{
 	
 	public FinalProjectGUI(){
 		super("Chromatic Polynomial Simulation");
+		this.contentArea = this.getContentPane();
+	
+		// Add a panel onto the frame
+
+		GraphPanel gpanel = new GraphPanel();
+		gpanel.setSize(300,400);
+		this.contentArea.add(BorderLayout.CENTER,gpanel);
 	} // end FinalProjectGUI
 
 } // end finalProjectGUI
