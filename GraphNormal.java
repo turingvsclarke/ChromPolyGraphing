@@ -10,26 +10,6 @@ public class GraphNormal implements Cloneable{
     public static void main(String[] args){
         // Testing creating a new edge and cloning it.
 	GraphNormal g = new GraphNormal();
-	// Add fifty new vertices and 15 edges to the graph
-	for(int i=0;i<7;i++){
-		// Get random integers between 0 and 100
-		int x1 = (int)(Math.random()*99);
-		int y1 = (int)(Math.random()*99);
-		g.addVertex(new Vertex(x1,y1));
-	} // end for	
-
-	int vertices = g.getVertices().size();	
-
-	// Add five new edges to the graph
-	for(int i=0;i<5;i++){
-		// get a random vertex
-		int firstV = (int)(Math.random()*(vertices-1));
-		int nextV = (int)(Math.random()*(vertices-1));
-		Vertex v1 = g.getVertex(firstV);
-		Vertex v2 = g.getVertex(nextV);
-		g.addEdge(v1,v2);
-	} // end for
-
 
 	GraphNormal g2 = g.clone();
 	g.printEdges();
@@ -46,6 +26,37 @@ public class GraphNormal implements Cloneable{
         this.Edges = new ArrayList();
         this.Vertices = new ArrayList();
     } // end constructor
+
+    public void testClone(){
+	GraphNormal g2 = this.clone();
+	this.printEdges();
+	g2.printEdges();
+	g2.removeEdge(g2.getEdge(0));
+	this.printEdges();
+	g2.printEdges();
+    } // end testClone
+
+    // Generate a random graph of a given size. Obviously, #edges = min[(v-1)!/2,e]
+    public GraphNormal(int v,int e){
+	this();	
+	for(int i=0;i<v;i++){
+		// Get random integers between 0 and 100
+		int x1 = (int)(Math.random()*1000);
+		int y1 = (int)(Math.random()*1000);
+		this.addVertex(new Vertex(x1,y1));
+	} // end for		
+
+	// Add as many edges as you can to the graph
+	for(int i=0;i<e;i++){
+		// get a random vertex
+		int firstV = (int)(Math.random()*(v-1));
+		int nextV = (int)(Math.random()*(v-1));
+		Vertex v1 = this.getVertex(firstV);
+		Vertex v2 = this.getVertex(nextV);
+		this.addEdge(v1,v2);
+	} // end for
+
+    } // end random graph constructor
 
     public GraphNormal clone(){
         GraphNormal g2 = new GraphNormal();
