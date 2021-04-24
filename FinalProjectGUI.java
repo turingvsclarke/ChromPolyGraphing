@@ -11,6 +11,8 @@ public class FinalProjectGUI extends BasicSwing{
 	
 	public FinalProjectGUI(){
 		super("Chromatic Polynomial Simulation");
+		
+
 	} // end FinalProjectGUI
 
 } // end finalProjectGUI
