@@ -40,13 +40,13 @@ public class GraphNormal implements Cloneable{
 
     // Generate a random graph of a given size. Obviously, #edges = min[(v-1)!/2,e]
     public GraphNormal(int v,int e){
-	this();	
+	this();
 	for(int i=0;i<v;i++){
 		// Get random integers between 0 and 100
 		int x1 = (int)(Math.random()*1000);
 		int y1 = (int)(Math.random()*1000);
 		this.addVertex(new Vertex(x1,y1));
-	} // end for		
+	} // end for
 	// Add as many edges as you can to the graph
 	for(int i=0;i<e;i++){
 		// get a random vertex
@@ -108,9 +108,9 @@ public class GraphNormal implements Cloneable{
 		System.out.println("Edge " + i + ":");
 		Vertex v1 = this.getEdge(i).getV1();
 		Vertex v2 = this.getEdge(i).getV2();
-				
+
 		int v1Index = this.getVertices().indexOf(v1);
-		int v2Index = this.getVertices().indexOf(v2);		
+		int v2Index = this.getVertices().indexOf(v2);
 
 		System.out.println("Vertex " + v1Index + ", Vertex " + v2Index);
 	} // end for
@@ -144,7 +144,7 @@ public class GraphNormal implements Cloneable{
 
     public boolean containsVertex(Vertex v){
 	ArrayList vertices = this.getVertices();
-	boolean containsVertex = vertices.contains(v); 
+	boolean containsVertex = vertices.contains(v);
 	return containsVertex;
 
     } // end containsVertex
@@ -154,7 +154,7 @@ public class GraphNormal implements Cloneable{
 	boolean addEdge = true;
 	ArrayList edges = this.getEdges();
 	for(int i=0;i<edges.size();i++){
-		Edge edge = this.getEdge(i); 
+		Edge edge = this.getEdge(i);
 		if(edge.containsVertex(v1) && edge.containsVertex(v2)){
 			i = edges.size();
 			addEdge = false;
@@ -164,7 +164,7 @@ public class GraphNormal implements Cloneable{
 		// This will throw an exception if v1, v2 are the same vertex. Do nothing if they are
 		try{
 			Edge e = new Edge(v1,v2);
-			edges.add(e);	
+			edges.add(e);
 		}catch(Exception a){}
     	} // end if
     } // end addEdge
@@ -176,7 +176,7 @@ public class GraphNormal implements Cloneable{
     public Edge getEdge(int i){
 		return (Edge)this.getEdges().get(i);
 	} // end getEdge
-    
+
     public ArrayList getEdges(){
 		return this.Edges;
 	} // end getEdges
@@ -193,9 +193,9 @@ public class GraphNormal implements Cloneable{
         // Make v1 and v2 the same point(so transfer any neighbors you have to)
         // First remove the edge between v1 and v2
         Vertex v1 = e.getV1();
-	Vertex v2 = e.getV2();
-	this.removeEdge(e);
-	
+	    Vertex v2 = e.getV2();
+	    this.removeEdge(e);
+
         // Look through all the edges and reassign any that contain v1 to v2
        	for(int edge=0;edge<this.getEdges().size();edge++){
 		Edge currentEdge = this.getEdge(edge);
@@ -204,12 +204,12 @@ public class GraphNormal implements Cloneable{
 			// Get the vertex besides v1
 			if(currentEdge.getV1()==v1){
 				otherV = currentEdge.getV2();
-			} // end if			
+			} // end if
 			else{
 				otherV = currentEdge.getV1();
 			} // end else
 
-			// Make a new edge with that other edge and v2 
+			// Make a new edge with that other edge and v2
 			this.addEdge(otherV,v2);
 
 			// Remove the old edge that contained v1
@@ -224,7 +224,7 @@ public class GraphNormal implements Cloneable{
 		System.out.println("Cannot remove edge. Contains vertex");
 	}
     } // end collapseEdge
-   
+
     public boolean hasEdges(){
         boolean hasEdges = false;
 	if(this.getEdges().size()>0){
@@ -232,12 +232,12 @@ public class GraphNormal implements Cloneable{
         } // end if
         return hasEdges;
     } // end hasEdges
-   
+
     // Chromatic Polynomial Calculations using recursion
     public String getChromPoly(){
         String chromPoly="";
         // This checks if the graph has no edges(note that it must have at least two vertices to have an edge)
-        if(this.hasEdges()){ 
+        if(this.hasEdges()){
 	    // Just use the first edge
             // Create two copies of the graph
 	    GraphNormal g1 = this.clone();

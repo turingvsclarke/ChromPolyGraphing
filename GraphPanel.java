@@ -29,8 +29,8 @@ public class GraphPanel extends JPanel{
 		Vertex thisVertex = g.getVertex(i);
 		int vX = thisVertex.getX();
 		int vY = thisVertex.getY();
-		// Each vertex circle has center vX,vY, radius 2.5, so see if the point is in such a circle
-		if((Math.abs(vX-x)<=2.5)&&(Math.abs(vY-y)<=2.5)){	
+		// Each vertex circle has center vX,vY, radius 5, so see if the point is in such a circle
+		if((Math.abs(vX-x)<=5)&&(Math.abs(vY-y)<=5)){	
 			// if its in that range, this is the vertex the user clicked
 			vertex=thisVertex;
 			break;
