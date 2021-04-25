@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class GraphPanel extends JPanel{
     int height;
@@ -14,27 +15,28 @@ public class GraphPanel extends JPanel{
 	this.height = this.getHeight();
 	this.width = this.getWidth();
 	this.setLayout(null);
-	this.paintVertices();
+	this.repaint();
     } // end constructor
 
-    public void paintVertices(){
-	// Add all the vertices to the graph
-	GraphNormal g = this.graph;
+    public Vertex getVertexAtPoint(int x,int y){
+	GraphNormal g = this.getGraph();
 	int v = g.getVertices().size();
-	for(int i=0;i<1;i++){	
-		VertexButton b = new VertexButton();
-		Vertex currentV = g.getVertex(i);
-		int vX = currentV.getX();
-		int vY = currentV.getY();
-		int w = b.getWidth();
-		int h = b.getHeight();
-		// Have the button be centered at the vertex's coordinates
-		b.setBounds(500,500,100,100);
-		this.add(b);
+	Vertex vertex=null;
+	// Check each vertex to find out if it's "near" that point
+	for(int i=0;i<v;i++){
+		Vertex thisVertex = g.getVertex(i);
+		int vX = thisVertex.getX();
+		int vY = thisVertex.getY();
+		// Each vertex circle has center vX,vY, radius 2.5, so see if the point is in such a circle
+		if((Math.abs(vX-x)<=2.5)&&(Math.abs(vY-y)<=2.5)){	
+			// if its in that range, this is the vertex the user clicked
+			vertex=thisVertex;
+			break;
+		} // end if
 	} // end for
-
-    } // end paintVertices
-
+	return vertex;
+    } // end getVertexAtPoint
+    
     // Make sure the panel is ready for a new vertex
     public void addNewVertexListener(){
 	this.addMouseListener(new newVertexClickListener());
@@ -70,15 +72,17 @@ public class GraphPanel extends JPanel{
 	boolean notFired=true;
 	public void MouseClicked(MouseEvent e){
 		if(notFired){
-			// get the location of the event			
+			// get the location of the event
 			int x = e.getX();
 			int y = e.getY();
 			// Get the vertex near that point
-			Vertex v1 = new Vertex();
-			SecondVertexListener l = new SecondVertexListener(v1);
-			// Add the listener to the panel	
-			// make sure its never fired again
-			notFired = false;
+			Vertex v1 = getVertexAtPoint(x,y);
+			if(v1!=null){
+				SecondVertexListener l = new SecondVertexListener(v1);
+				// Add the listener to the panel	
+				// make sure its never fired again
+				notFired = false;
+			} // end if
 		} // end if
 	} // end MouseClicked
     } // end FirstVertexListener
@@ -96,27 +100,32 @@ public class GraphPanel extends JPanel{
 		if(notFired){
 			int x = e.getX();
 			int y = e.getY();
-			Vertex v2 = new Vertex();
-			// get the vertex that's "near" that point
-			// add the complete edge to the graph
-			graph.addEdge(v1,v2);
-			// repaint the panel
-			repaint();
-			// ensure that the same listener never does anything again
-			notFired = false;
+			Vertex v2 = getVertexAtPoint(x,y);
+			if(v2!=null){
+				// get the vertex that's "near" that point
+				// add the complete edge to the graph
+				graph.addEdge(v1,v2);
+				// repaint the panel
+				repaint();
+				// ensure that the same listener never does anything again
+				notFired = false;
+			} // end if
 		} // end if
 	} // end MouseClicked
     } // end SecondVertexListener
 	
     public void paintComponent(Graphics g){
 	// paint the graph
-
-	// Draw all the edges
+	// Draw all the vertices and an edge if it exists between them
 	for(int i=0;i<graph.getEdges().size();i++){
+		// Clear all previous drawings by painting over the whole panel
+		g.setColor(this.getBackground());
+		g.fillRect(0,0,this.getWidth(),this.getHeight());
+
 		Edge edge = graph.getEdge(i);
 		Vertex V1 = edge.getV1();
 		Vertex V2 = edge.getV2();
-
+		// Paint a circle at each vertex and a line for each edge 
 		int vX1 = V1.getX();
 		int vX2 = V2.getX();
 		int vY1 = V1.getY();
@@ -130,4 +139,30 @@ public class GraphPanel extends JPanel{
 	// For erasing use g.setColor(this.getBackgroundColor).
     } // end paintComponent
 
+    // getter
+    public GraphNormal getGraph(){
+	return this.graph;
+	} // end getter
+
+
+    // Old method for when vertices were buttons
+    /***
+    public void paintVertices(){
+	// Add all the vertices to the graph
+	GraphNormal g = this.graph;
+	int v = g.getVertices().size();
+	for(int i=0;i<1;i++){	
+		VertexButton b = new VertexButton();
+		Vertex currentV = g.getVertex(i);
+		int vX = currentV.getX();
+		int vY = currentV.getY();
+		int w = b.getWidth();
+		int h = b.getHeight();
+		// Have the button be centered at the vertex's coordinates
+		b.setBounds(500,500,100,100);
+		this.add(b);
+	} // end for
+
+    } // end paintVertices
+    ***/
 } // end GraphPanel
