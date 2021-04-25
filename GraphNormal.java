@@ -9,17 +9,12 @@ public class GraphNormal implements Cloneable{
 
     public static void main(String[] args){
         // Testing creating a new edge and cloning it.
-	GraphNormal g = new GraphNormal();
-
-	GraphNormal g2 = g.clone();
+	GraphNormal g = new GraphNormal(3,3);
+	g.printVertices();
 	g.printEdges();
-	g2.printEdges();
-	g2.removeEdge(g2.getEdge(0));
+	g.collapseEdge(g.getEdge(0));
+	g.printVertices();
 	g.printEdges();
-	g2.printEdges();
-
-
-
     } // end main
 
     public GraphNormal(){
@@ -45,7 +40,6 @@ public class GraphNormal implements Cloneable{
 		int y1 = (int)(Math.random()*1000);
 		this.addVertex(new Vertex(x1,y1));
 	} // end for		
-
 	// Add as many edges as you can to the graph
 	for(int i=0;i<e;i++){
 		// get a random vertex
@@ -55,12 +49,10 @@ public class GraphNormal implements Cloneable{
 		Vertex v2 = this.getVertex(nextV);
 		this.addEdge(v1,v2);
 	} // end for
-
     } // end random graph constructor
 
     public GraphNormal clone(){
         GraphNormal g2 = new GraphNormal();
-
         // Clone each vertex and put it in the edge of its corresponding
         // Clone all your vertices and replace
         for(int vertex=0;vertex<this.Vertices.size();vertex++){
@@ -69,7 +61,6 @@ public class GraphNormal implements Cloneable{
             // Add a clone of that vertex to the clone of the graph
             Vertex vclone = v.clone();
             g2.addVertex(vclone);
-
             // make sure g2 has "clones" of the edges
             for(int edge=0;edge<this.Edges.size();edge++){
                 // get the next edge
@@ -92,7 +83,6 @@ public class GraphNormal implements Cloneable{
                 } // end if
             } // end for
         } // end for
-
         return g2;
     } // end clone
 
@@ -191,34 +181,43 @@ public class GraphNormal implements Cloneable{
 	this.getEdges().remove(e);
 	
     } // end removeEdge
-/***
-    public void collapseEdge(Vertex v1, Vertex v2){
+
+    public void collapseEdge(Edge e){
         // Make v1 and v2 the same point(so transfer any neighbors you have to)
-
         // First remove the edge between v1 and v2
-        this.removeEdge(v1,v2);
-
-        // Do stuff with every neighbor of v1
-        while(v1.hasNeighbors()){
-
-            // Remove all the edges to v1 and merge them with v2
-            Vertex v1Neighbor = v1.firstNeighbor();
-
-            // Note that this removes that neighbor from the list of v1's neighbors
-            this.removeEdge(v1Neighbor,v1);
-            this.addEdge(v1Neighbor,v2);
-
-        } // end for
-
-        // once all the neighbors have been transferred, remove v1 from the graph
-        this.remove(v1);
-
+        Vertex v1 = e.getV1();
+	Vertex v2 = e.getV2();
+	this.removeEdge(e);
+	
+        // Look through all the edges and reassign any that contain v1 to v2
+       	for(int edge=0;edge<this.getEdges().size();edge++){
+		Edge currentEdge = this.getEdge(edge);
+		if(currentEdge.containsVertex(v1)){
+			Vertex otherV = null;
+			// Get the vertex besides v1
+			if(currentEdge.getV1()==v1){
+				otherV = currentEdge.getV2();
+			} // end if			
+			else{
+				otherV = currentEdge.getV1();
+			} // end else
+			// Make a new edge with that other edge and v2 
+			this.addEdge(otherV,v2);
+		} // end if
+	} // end for
+	// Once all edges are transferred, remove v1 from graph
+        try{
+		this.removeVertex(v1);
+	} // end try
+	catch(Exception ex){
+		System.out.println("Cannot remove edge. Contains vertex");
+	}
     } // end collapseEdge
-
+    /**
     public boolean hasEdges(){
         boolean hasEdges = false;
         // check if all the list of neighbors are empty
-        for(int vertex=0;vertex<this.size();vertex++){
+        for(int vertex=0;vertex<this..size();vertex++){
             Vertex v = (Vertex)this.get(vertex);
             // if the current vertex's list of neighbors is empty, return false
             if(v.hasNeighbors()){
@@ -230,7 +229,7 @@ public class GraphNormal implements Cloneable{
         return hasEdges;
 
     } // end hasEdges
-
+    /**
     // Chromatic Polynomial Calculations using recursion
     public String getChromPoly(){
         String chromPoly="";
@@ -273,7 +272,7 @@ public class GraphNormal implements Cloneable{
 
         return chromPoly;
     } // end getChromPoly
-***/
+**/
 
 public class HasEdgeException extends Exception{} // end class def
 
