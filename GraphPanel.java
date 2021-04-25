@@ -14,6 +14,7 @@ public class GraphPanel extends JPanel{
 	this.graph = new GraphNormal(100,100);
 	this.height = this.getHeight();
 	this.width = this.getWidth();
+	this.addMouseListener(new dragVertexListener());
 	this.setLayout(null);
 	this.repaint();
     } // end constructor
@@ -36,12 +37,17 @@ public class GraphPanel extends JPanel{
 	} // end for
 	return vertex;
     } // end getVertexAtPoint
-    
+   
     // Make sure the panel is ready for a new vertex
     public void addNewVertexListener(){
 	this.addMouseListener(new newVertexClickListener());
     } // end addNewVertexListener
 
+    // Make sure the panel is ready for a new edge
+    public void addEdgeListener(){
+	this.addMouseListener(new FirstVertexListener());	
+    } // end addEdgeListener
+    
     // This listener adds a new vertex to the graph when clicked on. It is a one-use-only listener
     class newVertexClickListener extends MouseAdapter{
 	boolean notFired = true;
@@ -60,11 +66,6 @@ public class GraphPanel extends JPanel{
 		notFired = false;
 	} // end MouseClicked
     }
-
-    // Make sure the panel is ready for a new edge
-    public void addEdgeListener(){
-	this.addMouseListener(new FirstVertexListener());	
-    } // end addEdgeListener
 
     // this listener waits for a click indicating the first vertex of the new edge being added
     class FirstVertexListener extends MouseAdapter{
@@ -113,6 +114,30 @@ public class GraphPanel extends JPanel{
 		} // end if
 	} // end MouseClicked
     } // end SecondVertexListener
+
+    class dragVertexListener extends MouseAdapter{
+	Vertex currentVertex = null;
+	public void MousePressed(MouseEvent e){
+		// Get the vertex at the point where they clicked on a vertex
+		currentVertex = getVertexAtPoint(e.getX(),e.getY());
+		updateVertex(e);
+	} // end MousePressed
+
+	public void mouseDragged(MouseEvent e){
+		updateVertex(e);
+	} // end mouseDragged	
+
+	public void MouseReleased(MouseEvent e){
+		updateVertex(e);
+	}
+
+	public void updateVertex(MouseEvent e){
+		if(currentVertex!=null){
+			currentVertex.setCoordinates(e.getX(),e.getY());		
+			repaint();
+		} // end if
+	} // end updateVertex
+    } // end dragVertexListener 
 	
     public void paintComponent(Graphics g){
 	// paint the graph

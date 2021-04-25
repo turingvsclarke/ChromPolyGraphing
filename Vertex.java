@@ -5,8 +5,8 @@ import java.io.*;
 
 public class Vertex implements Cloneable{
 
-	private final int x;
-	private final int y;
+	private int x;
+	private int y;
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args){
@@ -26,8 +26,7 @@ public class Vertex implements Cloneable{
 	} // end testCloning
 
 	public Vertex(int x,int y){
-		this.x = x;
-		this.y = y;	
+		this.setCoordinates(x,y);
 	} // end constructor
 
 	public Vertex clone(){
@@ -42,6 +41,11 @@ public class Vertex implements Cloneable{
 	public int getY(){
 		return y;
 	} // end getY
+
+	public void setCoordinates(int x,int y){
+		this.x = x;
+		this.y = y;
+	} // end setCoordinates
 	
 	public void printCoordinates(){
 		int x = this.getX();
