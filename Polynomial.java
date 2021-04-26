@@ -61,7 +61,7 @@ public class Polynomial extends ArrayList{
         } // end for
         return result;
     } // end addPoly
-
+    
     // Multiply the polynomial by an integer
     public static Polynomial polyByInt(Polynomial p,int x){
         Polynomial result = new Polynomial();
@@ -74,7 +74,7 @@ public class Polynomial extends ArrayList{
     public static Polynomial intByPoly(int x,Polynomial p){
         return Polynomial.polyByInt(p,x);
     } // end intByPoly
-
+    
     public static Polynomial subtractPolys(Polynomial a, Polynomial b){
         Polynomial p = Polynomial.polyByInt(b,-1);
         return Polynomial.addPolys(a,p);
