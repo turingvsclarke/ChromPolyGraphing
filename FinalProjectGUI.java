@@ -14,7 +14,6 @@ public class FinalProjectGUI extends BasicSwing{
 	public FinalProjectGUI(){
 		super("Chromatic Polynomial Simulation");
 		this.contentArea = this.getContentPane();
-
 		// Add a panel onto the frame
 
 		gpanel = new GraphPanel();
@@ -29,13 +28,13 @@ public class FinalProjectGUI extends BasicSwing{
 		PolyPanel pPanel = new PolyPanel();
 		this.contentArea.add(BorderLayout.SOUTH,pPanel);
 
-
 	} // end constructor
 
 	// Create a panel with all the buttons for the GUI
 	class ButtonPanel extends JPanel{
 		public ButtonPanel(){
 			super();
+
 			this.setLayout(new GridLayout(2,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
@@ -48,6 +47,7 @@ public class FinalProjectGUI extends BasicSwing{
 			this.add(addEdge);
 
 		} // end constructor
+
 	} // end ButtonPanel class
 
 	// Create a panel to add on to the bottom of the GUI for displaying the polynomial
@@ -60,6 +60,7 @@ public class FinalProjectGUI extends BasicSwing{
 			this.setBorder(BorderFactory.createLineBorder(Color.black));
 			// Put a button on the left side
 			JButton getPoly = new JButton("Display Chromatic Polynomial");
+
 			getPoly.addActionListener(new GetPolyListener());
 
 			polyDisplay = new JLabel();

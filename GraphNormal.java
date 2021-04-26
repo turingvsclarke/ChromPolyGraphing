@@ -24,6 +24,7 @@ public class GraphNormal implements Cloneable{
 	g.addEdge(v2,v3);
   g.addEdge(v3,v4);
   g.addEdge(v2,v4);
+
 	g.printVertices();
 	g.printEdges();
 	System.out.println(g.getChromPoly());
@@ -51,7 +52,9 @@ public class GraphNormal implements Cloneable{
 		int x1 = (int)(Math.random()*(xrange-1));
 		int y1 = (int)(Math.random()*(yrange-1));
 		this.addVertex(new Vertex(x1,y1));
+
 	} // end for
+
 	// Add as many edges as you can to the graph(Pick the 0th up to the (v-1)th vertex)
 	for(int i=0;i<e;i++){
 		// get a random vertex
@@ -129,29 +132,35 @@ public class GraphNormal implements Cloneable{
     } // end addVertex
 
     public void removeVertex(Vertex v) throws HasEdgeException{
-      boolean inEdge = false;
-      // Check each edge for the vertex
-      for(int i=0;i<this.Edges.size();i++){
-          Edge e = this.getEdge(i);
-          // Stop looking if the edge has that vertex
-          if(e.containsVertex(v)){
-            inEdge = true;
-            break;
-          } // end if
-      } // end for
-
-      if(inEdge){
-          throw new HasEdgeException();
-      } // end if
-      else{
-          this.getVertices().remove(v);
-      } // end else
-    } // end removeVertex
 
     public boolean containsVertex(Vertex v){
 	     ArrayList vertices = this.getVertices();
 	     boolean containsVertex = vertices.contains(v);
        return containsVertex;
+
+	boolean inEdge = false;
+	// Check each edge for the vertex
+	for(int i=0;i<this.Edges.size();i++){
+		Edge e = this.getEdge(i);
+		// Stop looking if the edge has that vertex
+		if(e.containsVertex(v)){
+			inEdge = true;
+			break;
+		} // end if
+	} // end for
+	if(inEdge){
+		throw new HasEdgeException();
+	}
+	else{
+		this.getVertices().remove(v);
+	}
+    } // end removeVertex
+
+    public boolean containsVertex(Vertex v){
+	ArrayList vertices = this.getVertices();
+	boolean containsVertex = vertices.contains(v);
+	return containsVertex;
+
     } // end containsVertex
 
     public void addEdge(Vertex v1, Vertex v2){
@@ -200,38 +209,37 @@ public class GraphNormal implements Cloneable{
         // Make v1 and v2 the same point(so transfer any neighbors you have to)
         // First remove the edge between v1 and v2
         Vertex v1 = e.getV1();
-        Vertex v2 = e.getV2();
-        this.removeEdge(e);
+
+	    Vertex v2 = e.getV2();
+	    this.removeEdge(e);
 
         // Look through all the edges and reassign any that contain v1 to v2
        	for(int edge=0;edge<this.getEdges().size();edge++){
-		        Edge currentEdge = this.getEdge(edge);
-            if(currentEdge.containsVertex(v1)){
-			           Vertex otherV = null;
-                 // Get the vertex besides v1
-                 if(currentEdge.getV1()==v1){
-                    otherV = currentEdge.getV2();
-                  } // end if
+		Edge currentEdge = this.getEdge(edge);
+		if(currentEdge.containsVertex(v1)){
+			Vertex otherV = null;
+			// Get the vertex besides v1
+			if(currentEdge.getV1()==v1){
+				otherV = currentEdge.getV2();
+			} // end if
+			else{
+				otherV = currentEdge.getV1();
+			} // end else
 
-                  else{
-				                otherV = currentEdge.getV1();
-			            } // end else
+			// Make a new edge with that other edge and v2
+			this.addEdge(otherV,v2);
 
-                  // Make a new edge with that other edge and v2
-                  this.addEdge(otherV,v2);
-
-                  // Remove the old edge that contained v1
-                  this.removeEdge(currentEdge);
-            } // end if
-	      } // end for
-
-        // Once all edges are transferred, remove v1 from graph
+			// Remove the old edge that contained v1
+			this.removeEdge(currentEdge);
+		} // end if
+	} // end for
+	// Once all edges are transferred, remove v1 from graph
         try{
-		        this.removeVertex(v1);
-        } // end try
-        catch(HasEdgeException ex){
-		        System.out.println("Cannot remove vertex. In an edge");
-        }
+		this.removeVertex(v1);
+	} // end try
+	catch(HasEdgeException ex){
+		System.out.println("Cannot remove edge. Contains vertex");
+	}
     } // end collapseEdge
 
     public boolean hasEdges(){
@@ -303,12 +311,8 @@ public class GraphNormal implements Cloneable{
 
         return chromPoly;
     } // end getChromPoly
+
     ***/
-
-
-
-
-
 
 public class HasEdgeException extends Exception{} // end class def
 
