@@ -9,7 +9,7 @@ public class GraphNormal implements Cloneable{
 
     public static void main(String[] args){
         // Testing creating a new edge and cloning it.
-	GraphNormal g = new GraphNormal(3,3);
+	//	GraphNormal g = new GraphNormal(3,3,100,100);
 	g.printVertices();
 	g.printEdges();
 	g.collapseEdge(g.getEdge(0));
@@ -32,15 +32,15 @@ public class GraphNormal implements Cloneable{
     } // end testClone
 
     // Generate a random graph of a given size. Obviously, #edges = min[(v-1)!/2,e]
-    public GraphNormal(int v,int e){
+    public GraphNormal(int v,int e, int xrange, int yrange){
 	this();	
 	for(int i=0;i<v;i++){
 		// Get random integers between 0 and 100
-		int x1 = (int)(Math.random()*1000);
-		int y1 = (int)(Math.random()*1000);
+		int x1 = (int)(Math.random()*(xrange-1));
+		int y1 = (int)(Math.random()*(yrange-1));
 		this.addVertex(new Vertex(x1,y1));
 	} // end for		
-	// Add as many edges as you can to the graph
+	// Add as many edges as you can to the graph(Pick the 0th up to the (v-1)th vertex)
 	for(int i=0;i<e;i++){
 		// get a random vertex
 		int firstV = (int)(Math.random()*(v-1));
