@@ -107,7 +107,12 @@ public class Polynomial extends ArrayList{
               } // end if
 		          // Only write non unitary coefficients unless its the constant term
 		          if(coeff!=1 || n==1){
-            	   polyString+=coeff;
+				if(coeff==-1 && n>1){
+					polyString+="-";
+				} // end if
+				else{
+            	   			polyString+=coeff;
+				} // end else
 		          } // end if
             	// Print the variable and an order if its not the constant term
             	if(n>1){

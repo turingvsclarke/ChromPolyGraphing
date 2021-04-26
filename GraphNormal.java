@@ -13,20 +13,21 @@ public class GraphNormal implements Cloneable{
 	Vertex v1 = new Vertex(0,0);
 	Vertex v2 = new Vertex(1,1);
 	Vertex v3 = new Vertex(2,2);
-  Vertex v4 = new Vertex(1,0);
+  	Vertex v4 = new Vertex(1,0);
 
 	g.addVertex(v1);
 	g.addVertex(v2);
 	g.addVertex(v3);
-  g.addVertex(v4);
-	g.addEdge(v1,v2);
+  	g.addVertex(v4);
 	g.addEdge(v1,v3);
 	g.addEdge(v2,v3);
-  g.addEdge(v3,v4);
-  g.addEdge(v2,v4);
+	g.addEdge(v3,v4);
+	//g.collapseEdge(g.getEdge(0));
+	//g.collapseEdge(g.getEdge(1));
+	//g.collapseEdge(g.getEdge(2));
 	g.printVertices();
 	g.printEdges();
-	System.out.println(g.getChromPoly());
+	System.out.println(g.getChromPoly().getPolyString("x"));
     } // end main
 
     public GraphNormal(){
@@ -207,19 +208,19 @@ public class GraphNormal implements Cloneable{
        	for(int edge=0;edge<this.getEdges().size();edge++){
 		        Edge currentEdge = this.getEdge(edge);
             if(currentEdge.containsVertex(v1)){
-			           Vertex otherV = null;
+		 // We'll end up removing the currentedge, so don't let the counter increment
+		 edge--;
+		 Vertex otherV = null;
                  // Get the vertex besides v1
-                 if(currentEdge.getV1()==v1){
+                 if(currentEdge.getV1().equals(v1)){
                     otherV = currentEdge.getV2();
                   } // end if
-
-                  else{
-				                otherV = currentEdge.getV1();
-			            } // end else
+                  else if (currentEdge.getV2().equals(v1)){
+			otherV = currentEdge.getV1();
+		  } // end else
 
                   // Make a new edge with that other edge and v2
                   this.addEdge(otherV,v2);
-
                   // Remove the old edge that contained v1
                   this.removeEdge(currentEdge);
             } // end if
@@ -230,8 +231,9 @@ public class GraphNormal implements Cloneable{
 		        this.removeVertex(v1);
         } // end try
         catch(HasEdgeException ex){
-		        System.out.println("Cannot remove vertex. In an edge");
-        }
+		System.out.println("Cannot remove vertex. In an edge");
+        	v1.printCoordinates();
+	}
     } // end collapseEdge
 
     public boolean hasEdges(){

@@ -9,8 +9,11 @@ runGraph: GraphNormal.class
 debugGraph: GraphNormal.class
 	jdb GraphNormal
 
-GraphNormal.class: GraphNormal.java Vertex.class Edge.class
+GraphNormal.class: GraphNormal.java Vertex.class Edge.class Polynomial.class
 	javac -g GraphNormal.java
+
+Polynomial.class: Polynomial.java
+	javac -g Polynomial.java
 
 Vertex.class: Vertex.java
 	javac -g Vertex.java
