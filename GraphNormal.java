@@ -9,12 +9,19 @@ public class GraphNormal implements Cloneable{
 
     public static void main(String[] args){
         // Testing creating a new edge and cloning it.
-	//	GraphNormal g = new GraphNormal(3,3,100,100);
+	GraphNormal g = new GraphNormal();
+	Vertex v1 = new Vertex(0,0);
+	Vertex v2 = new Vertex(1,1);
+	Vertex v3 = new Vertex(2,2);
+	g.addVertex(v1);
+	g.addVertex(v2);
+	g.addVertex(v3);
+	g.addEdge(v1,v2);
+	g.addEdge(v2,v3);
+	g.addEdge(v1,v3);
 	g.printVertices();
 	g.printEdges();
-	g.collapseEdge(g.getEdge(0));
-	g.printVertices();
-	g.printEdges();
+	System.out.println(g.getChromPoly());
     } // end main
 
     public GraphNormal(){
@@ -101,9 +108,9 @@ public class GraphNormal implements Cloneable{
 		System.out.println("Edge " + i + ":");
 		Vertex v1 = this.getEdge(i).getV1();
 		Vertex v2 = this.getEdge(i).getV2();
-				
+
 		int v1Index = this.getVertices().indexOf(v1);
-		int v2Index = this.getVertices().indexOf(v2);		
+		int v2Index = this.getVertices().indexOf(v2);
 
 		System.out.println("Vertex " + v1Index + ", Vertex " + v2Index);
 	} // end for
@@ -131,13 +138,13 @@ public class GraphNormal implements Cloneable{
 		throw new HasEdgeException();
 	}
 	else{
-		this.Vertices.remove(v);
+		this.getVertices().remove(v);
 	}
     } // end removeVertex
 
     public boolean containsVertex(Vertex v){
 	ArrayList vertices = this.getVertices();
-	boolean containsVertex = vertices.contains(v); 
+	boolean containsVertex = vertices.contains(v);
 	return containsVertex;
 
     } // end containsVertex
@@ -147,16 +154,17 @@ public class GraphNormal implements Cloneable{
 	boolean addEdge = true;
 	ArrayList edges = this.getEdges();
 	for(int i=0;i<edges.size();i++){
-		Edge edge = this.getEdge(i); 
+		Edge edge = this.getEdge(i);
 		if(edge.containsVertex(v1) && edge.containsVertex(v2)){
 			i = edges.size();
 			addEdge = false;
 		} // end if
 	}
 	if(addEdge){
+		// This will throw an exception if v1, v2 are the same vertex. Do nothing if they are
 		try{
 			Edge e = new Edge(v1,v2);
-			edges.add(e);	
+			edges.add(e);
 		}catch(Exception a){}
     	} // end if
     } // end addEdge
@@ -168,7 +176,7 @@ public class GraphNormal implements Cloneable{
     public Edge getEdge(int i){
 		return (Edge)this.getEdges().get(i);
 	} // end getEdge
-    
+
     public ArrayList getEdges(){
 		return this.Edges;
 	} // end getEdges
@@ -179,16 +187,15 @@ public class GraphNormal implements Cloneable{
 
     public void removeEdge(Edge e){
 	this.getEdges().remove(e);
-	
     } // end removeEdge
 
     public void collapseEdge(Edge e){
         // Make v1 and v2 the same point(so transfer any neighbors you have to)
         // First remove the edge between v1 and v2
         Vertex v1 = e.getV1();
-	Vertex v2 = e.getV2();
-	this.removeEdge(e);
-	
+	    Vertex v2 = e.getV2();
+	    this.removeEdge(e);
+
         // Look through all the edges and reassign any that contain v1 to v2
        	for(int edge=0;edge<this.getEdges().size();edge++){
 		Edge currentEdge = this.getEdge(edge);
@@ -197,85 +204,65 @@ public class GraphNormal implements Cloneable{
 			// Get the vertex besides v1
 			if(currentEdge.getV1()==v1){
 				otherV = currentEdge.getV2();
-			} // end if			
+			} // end if
 			else{
 				otherV = currentEdge.getV1();
 			} // end else
-			// Make a new edge with that other edge and v2 
+
+			// Make a new edge with that other edge and v2
 			this.addEdge(otherV,v2);
+
+			// Remove the old edge that contained v1
+			this.removeEdge(currentEdge);
 		} // end if
 	} // end for
 	// Once all edges are transferred, remove v1 from graph
         try{
 		this.removeVertex(v1);
 	} // end try
-	catch(Exception ex){
+	catch(HasEdgeException ex){
 		System.out.println("Cannot remove edge. Contains vertex");
 	}
     } // end collapseEdge
-    /**
+
     public boolean hasEdges(){
         boolean hasEdges = false;
-        // check if all the list of neighbors are empty
-        for(int vertex=0;vertex<this..size();vertex++){
-            Vertex v = (Vertex)this.get(vertex);
-            // if the current vertex's list of neighbors is empty, return false
-            if(v.hasNeighbors()){
-                hasEdges = true;
-                vertex = this.size()+1;
-            }
-        } // end for
-
+	if(this.getEdges().size()>0){
+		hasEdges = true;
+        } // end if
         return hasEdges;
-
     } // end hasEdges
-    /**
+
     // Chromatic Polynomial Calculations using recursion
     public String getChromPoly(){
         String chromPoly="";
         // This checks if the graph has no edges(note that it must have at least two vertices to have an edge)
-        if(!(this.hasEdges())){
-            chromPoly = "q^" + String.valueOf(this.size());
-        } // end if
-         // If there are still edges, compute the polynomial of them
-        else{
+        if(this.hasEdges()){
+	    // Just use the first edge
+            // Create two copies of the graph
+	    GraphNormal g1 = this.clone();
+	    GraphNormal g2 = this.clone();
 
-            boolean getEdge=true;
-            int vertex = 0;
-            Vertex v1=null;
-            Vertex v2=null;
-            // Look for the first edge
-            // We know that we HAVE edges, but we still need to FIND them
-            while(getEdge){
-                // Use the first vertex and its first neighbor for the edge
-                v1 = (Vertex)this.get(vertex);
-                if(v1.hasNeighbors()){
-                    v2 = (Vertex)v1.firstNeighbor();
-                    getEdge = false;
-                }
-                else{
-                    // If the first vertex has no neighbors, ask the second one for neighbors
-                    vertex++;
-                }
-            } // end while
+	    // Get the chromatic polynomial of the graph with the edge removed
+            g1.removeEdge(g1.getEdge(0));
+            String rmvEdge = g1.getChromPoly();
 
-            this.removeEdge(v1,v2);
-            g1 = (Graph)this.clone();
-            rmvEdge = g1.getChromPoly();
+	    // Get the chromatic polynomial of the graph with the edge collapsed
+            g2.collapseEdge(g2.getEdge(0));
+            String cllpsEdge = g2.getChromPoly();
 
-            this.collapseEdge(v1,v2);
-            g2 = (Graph)this.clone();
-            cllpsEdge = g2.getChromPoly();
-
+	    // Subtract the two results
             chromPoly= "("+rmvEdge+"-"+cllpsEdge+")";
-        } // end else
+        } // end if
+
+	// If a graph with no edges has n vertices, the ways of coloring it are q^n
+	else{
+		chromPoly = "q^" + String.valueOf(this.getVertices().size());
+	} // end else
 
         return chromPoly;
     } // end getChromPoly
-**/
 
 public class HasEdgeException extends Exception{} // end class def
 
-
-
-} // end class def
+} // end GraphNormal class def

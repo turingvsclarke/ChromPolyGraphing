@@ -1,22 +1,31 @@
 runGUI: FinalProjectGUI.class
 	java FinalProjectGUI
+	make clean
 
-runGraph: Graph.class
-	java Graph
-debugGraph: Graph.class
-	jdb Graph
+runGraph: GraphNormal.class
+	java GraphNormal
+	make clean
 
-Graph.class: Graph.java Vertex.class
-	javac -g Graph.java
+debugGraph: GraphNormal.class
+	jdb GraphNormal
+
+GraphNormal.class: GraphNormal.java Vertex.class Edge.class
+	javac -g GraphNormal.java
 
 Vertex.class: Vertex.java
-	javac Vertex.java
+	javac -g Vertex.java
 
-FinalProjectGUI.class: FinalProjectGUI.java BasicSwing.class
+Edge.class: Edge.java
+	javac -g Edge.java
+
+FinalProjectGUI.class: FinalProjectGUI.java BasicSwing.class GraphPanel.class
 	javac FinalProjectGUI.java
 
 BasicSwing.class: BasicSwing.java
-	javac BasicSwing.java
+	javac -g BasicSwing.java
+
+GraphPanel.class: GraphPanel.java
+	javac -g GraphPanel.java
 
 clean: 
 	rm *.class
