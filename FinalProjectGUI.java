@@ -41,12 +41,8 @@ public class FinalProjectGUI extends BasicSwing{
 	class ButtonPanel extends JPanel{
 		public ButtonPanel(){
 			super();
-<<<<<<< HEAD
-			this.setLayout(new GridLayout(4,1));
-=======
 
-			this.setLayout(new GridLayout(3,1));
->>>>>>> parent of c15302f... Graph generation and erasure work
+			this.setLayout(new GridLayout(4,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -76,11 +72,11 @@ public class FinalProjectGUI extends BasicSwing{
 			// Put a border on it
 			this.setBorder(BorderFactory.createLineBorder(Color.black));
 			// Put a button on the left side
-		
+
 			getPoly = new JButton("Display Chromatic Polynomial");
-			getPoly.addActionListener(new GetPolyListener()); 
+			getPoly.addActionListener(new GetPolyListener());
 			this.add(BorderLayout.WEST,getPoly);
-	
+
 			polyDisplay = new JLabel();
 			polyDisplay.setSize(300,200);
 			polyDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -124,7 +120,6 @@ public class FinalProjectGUI extends BasicSwing{
 				d.setVisible(false);
 		}
 
-<<<<<<< HEAD
 	class GetPolyListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Convert the polynomial from the graph into a string
@@ -139,9 +134,6 @@ public class FinalProjectGUI extends BasicSwing{
 			gpanel.generateGraph(0,0);
 		} // end actionPerformed
 	} // end graphEraseListener
-	
-=======
-	}
 
->>>>>>> parent of c15302f... Graph generation and erasure work
+	}
 } // end finalProjectGUI

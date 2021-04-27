@@ -41,20 +41,18 @@ public class GraphDialog extends JDialog{
     } // end GraphDialog
 
     class EchangeListener implements InputMethodListener{
-      public void inputMethodTextChanged(InputMethodEvent e){
+      public void stateChange(InputMethodEvent e){
           setEdgeSize((int)eModel.getNumber());
-      } // end inputMethodTextChanged
-      public void caretPositionChanged(InputMethodEvent a){}
+      } // end state Change
     } // end EchangeListener
 
-    class VchangeListener implements InputMethodListener{
-      public void inputMethodTextChanged(InputMethodEvent e){
+    class VchangeListener implements ChangeListener{
+      public void stateChange(InputMethodEvent e){
           int currentV = (int)(vModel.getNumber());
           int vMath = ((currentV)*(currentV-1))/2;
           setVertexSize(currentV);
           eModel.setMaximum(vMath);
-      } // end inputMethodTextChanged
-      public void caretPositionChanged(InputMethodEvent a){}
+      } // end stateChange
     } // end VchangeListener
 
     public void setVertexSize(int vsize){
