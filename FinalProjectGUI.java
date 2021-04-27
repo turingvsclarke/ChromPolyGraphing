@@ -19,7 +19,7 @@ public class FinalProjectGUI extends BasicSwing{
 		// Add a panel onto the frame
 
 		gpanel = new GraphPanel();
-		gpanel.setSize(800,500);
+		gpanel.setSize(300,400);
 		this.contentArea.add(BorderLayout.CENTER,gpanel);
 
 		// Add the panel with all control buttons on to the left side of the screen
@@ -37,8 +37,7 @@ public class FinalProjectGUI extends BasicSwing{
 	class ButtonPanel extends JPanel{
 		public ButtonPanel(){
 			super();
-
-			this.setLayout(new GridLayout(5,1));
+			this.setLayout(new GridLayout(4,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -55,10 +54,6 @@ public class FinalProjectGUI extends BasicSwing{
 			this.setVisible(true);
 			this.repaint();
 
-			getPoly = new JButton("Display Chromatic Polynomial");
-			getPoly.addActionListener(new GetPolyListener()); 
-			this.add(getPoly);
-	
 			clearGraph = new JButton("Clear Screen");
 			clearGraph.addActionListener(new graphEraseListener());
 			this.add(clearGraph);
@@ -78,16 +73,19 @@ public class FinalProjectGUI extends BasicSwing{
 			// Put a border on it
 			this.setBorder(BorderFactory.createLineBorder(Color.black));
 			// Put a button on the left side
-			
+		
+			getPoly = new JButton("Display Chromatic Polynomial");
+			getPoly.addActionListener(new GetPolyListener()); 
+			this.add(BorderLayout.WEST,getPoly);
+	
 			polyDisplay = new JLabel();
 			polyDisplay.setSize(300,200);
 			polyDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
-			this.add(polyDisplay);
+			this.add(BorderLayout.CENTER,polyDisplay);
 			this.setVisible(true);
 			this.repaint();
 		} // end constructor
 
-		
 	} // end PolyPanel class def
 
 	// This listener waits for the addVertex button to be clicked, then tells the graphPanel to get ready for a new vertex
@@ -130,7 +128,7 @@ public class FinalProjectGUI extends BasicSwing{
 				String polynomial = gpanel.getGraph().getChromPoly().getPolyString("q");
 				polyDisplay.setText(polynomial);
 			} // end ActionPerformed
-	} // end GetPolyListener class dev
+	} // end GetPolyListener
 
 	class graphEraseListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
@@ -138,5 +136,5 @@ public class FinalProjectGUI extends BasicSwing{
 			gpanel.generateGraph(0,0);
 		} // end actionPerformed
 	} // end graphEraseListener
-
+	
 } // end finalProjectGUI

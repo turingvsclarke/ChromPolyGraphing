@@ -2,7 +2,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 public class GraphDialog extends JDialog{
     JSpinner vSpin,eSpin;
@@ -23,7 +22,7 @@ public class GraphDialog extends JDialog{
         vModel = new SpinnerNumberModel();
         vModel.setMinimum(0);
         vSpin = new JSpinner(vModel);
-        vSpin.addChangeListener(new VchangeListener());
+        vSpin.addInputMethodListener(new VchangeListener());
         vPane.add(BorderLayout.WEST,vLab);
         vPane.add(BorderLayout.EAST,vSpin);
 
@@ -33,7 +32,7 @@ public class GraphDialog extends JDialog{
         eLab = new JLabel("Edges:");
         eModel = new SpinnerNumberModel(0,0,0,1);
         eSpin = new JSpinner(eModel);
-        eSpin.addChangeListener(new EchangeListener());
+        eSpin.addInputMethodListener(new EchangeListener());
         ePane.add(BorderLayout.WEST,eLab);
         ePane.add(BorderLayout.EAST,eSpin);
         this.add(ePane);
@@ -41,19 +40,21 @@ public class GraphDialog extends JDialog{
 
     } // end GraphDialog
 
-    class EchangeListener implements ChangeListener{
-      public void stateChanged(ChangeEvent e){
+    class EchangeListener implements InputMethodListener{
+      public void inputMethodTextChanged(InputMethodEvent e){
           setEdgeSize((int)eModel.getNumber());
-      } // end stateChanged
+      } // end inputMethodTextChanged
+      public void caretPositionChanged(InputMethodEvent a){}
     } // end EchangeListener
 
-    class VchangeListener implements ChangeListener{
-      public void stateChanged(ChangeEvent e){
+    class VchangeListener implements InputMethodListener{
+      public void inputMethodTextChanged(InputMethodEvent e){
           int currentV = (int)(vModel.getNumber());
           int vMath = ((currentV)*(currentV-1))/2;
           setVertexSize(currentV);
           eModel.setMaximum(vMath);
-      } // end stateChanged
+      } // end inputMethodTextChanged
+      public void caretPositionChanged(InputMethodEvent a){}
     } // end VchangeListener
 
     public void setVertexSize(int vsize){
