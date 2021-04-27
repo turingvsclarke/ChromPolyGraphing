@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.util.*;
 
 public class GraphPanel extends JPanel{
-    int height;
-    int width;
     GraphNormal graph;
 
     public GraphPanel(){
@@ -15,13 +13,13 @@ public class GraphPanel extends JPanel{
 	this.addMouseListener(new DragVertexListener());
 	this.setLayout(null);
 	this.setBorder(BorderFactory.createLineBorder(Color.black));
-  this.setSize(300,400);
+  	// this.setSize(300,400);
 	this.setVisible(true);
   this.repaint();
     } // end constructor
 
     public void generateGraph(int v,int e){
-      this.graph = new GraphNormal(v,e,this.getHeight(),this.getWidth());
+      this.graph = new GraphNormal(v,e,this.getWidth(),this.getHeight());
       repaint();
     } // end generateGraph
 

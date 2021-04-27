@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class FinalProjectGUI extends BasicSwing{
 	GraphPanel gpanel = null;
-	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph;
+	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph, clearGraph;
 	GraphDialog d=new GraphDialog();
 
 	public static void main(String[] args){
@@ -18,7 +18,7 @@ public class FinalProjectGUI extends BasicSwing{
 		// Add a panel onto the frame
 
 		gpanel = new GraphPanel();
-		gpanel.setSize(300,400);
+		gpanel.setSize(800,500);
 		this.contentArea.add(BorderLayout.CENTER,gpanel);
 
 		// Add the panel with all control buttons on to the left side of the screen
@@ -37,7 +37,7 @@ public class FinalProjectGUI extends BasicSwing{
 		public ButtonPanel(){
 			super();
 
-			this.setLayout(new GridLayout(3,1));
+			this.setLayout(new GridLayout(4,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -53,6 +53,12 @@ public class FinalProjectGUI extends BasicSwing{
 			this.add(generateGraph);
 			this.setVisible(true);
 			this.repaint();
+
+			clearGraph = new JButton("Clear Screen");
+			clearGraph.addActionListener(new graphEraseListener());
+			this.add(clearGraph);
+			
+
 		} // end constructor
 
 	} // end ButtonPanel class
@@ -119,8 +125,14 @@ public class FinalProjectGUI extends BasicSwing{
 				int edgeSize = d.getEdgeSize();
 				gpanel.generateGraph(vertexSize,edgeSize);
 				d.setVisible(false);
-		}
+		} // end actionPerformed
+	} // end randomGraphGeneration
 
-	}
+	class graphEraseListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			// Reset the graph
+			gpanel.generateGraph(0,0);
+		} // end actionPerformed
+	} // end graphEraseListener
 
 } // end finalProjectGUI
