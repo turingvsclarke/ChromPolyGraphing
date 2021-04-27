@@ -129,12 +129,6 @@ public class GraphNormal implements Cloneable{
     } // end addVertex
 
     public void removeVertex(Vertex v) throws HasEdgeException{
-
-    public boolean containsVertex(Vertex v){
-	     ArrayList vertices = this.getVertices();
-	     boolean containsVertex = vertices.contains(v);
-       return containsVertex;
-
 	boolean inEdge = false;
 	// Check each edge for the vertex
 	for(int i=0;i<this.Edges.size();i++){

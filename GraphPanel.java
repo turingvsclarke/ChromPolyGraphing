@@ -12,13 +12,18 @@ public class GraphPanel extends JPanel{
     public GraphPanel(){
 	// Add a graph to the panel
 	this.graph = new GraphNormal();
-	this.height = this.getHeight();
-	this.width = this.getWidth();
 	this.addMouseListener(new DragVertexListener());
 	this.setLayout(null);
 	this.setBorder(BorderFactory.createLineBorder(Color.black));
-	this.repaint();
+  this.setSize(300,400);
+	this.setVisible(true);
+  this.repaint();
     } // end constructor
+
+    public void generateGraph(int v,int e){
+      this.graph = new GraphNormal(v,e,this.getHeight(),this.getWidth());
+      repaint();
+    } // end generateGraph
 
     public Vertex getVertexAtPoint(int x,int y){
 	GraphNormal g = this.getGraph();
@@ -30,7 +35,7 @@ public class GraphPanel extends JPanel{
 		int vX = thisVertex.getX();
 		int vY = thisVertex.getY();
 		// Each vertex circle has center vX,vY, radius 5, so see if the point is in such a circle
-		if((Math.abs(vX-x)<=5)&&(Math.abs(vY-y)<=5)){	
+		if((Math.abs(vX-x)<=5)&&(Math.abs(vY-y)<=5)){
 			// if its in that range, this is the vertex the user clicked
 			vertex=thisVertex;
 			break;
@@ -38,7 +43,7 @@ public class GraphPanel extends JPanel{
 	} // end for
 	return vertex;
     } // end getVertexAtPoint
-   
+
     // Make sure the panel is ready for a new vertex
     public void addNewVertexListener(){
 	System.out.println("adding new vertex listener...");
@@ -48,18 +53,18 @@ public class GraphPanel extends JPanel{
     // Make sure the panel is ready for a new edge
     public void addEdgeListener(){
 	System.out.println("adding new edge listener...");
-	this.addMouseListener(new FirstVertexListener());	
+	this.addMouseListener(new FirstVertexListener());
     } // end addEdgeListener
 
     public void addSecondVertexListener(Vertex v){
 	System.out.println("Adding a listener for the second vertex...");
 	this.addMouseListener(new SecondVertexListener(v));
     }
-    
+
     // This listener adds a new vertex to the graph when clicked on. It is a one-use-only listener
     class NewVertexClickListener extends MouseAdapter{
 	boolean notFired = true;
-	// When clicked, a vertex should appear 
+	// When clicked, a vertex should appear
 	public void mouseClicked(MouseEvent e){
 		// Add a new vertex at the point
 		if(notFired){
@@ -105,7 +110,7 @@ public class GraphPanel extends JPanel{
 	boolean notFired=true;
 	public SecondVertexListener(Vertex v){
 		super();
-		this.v1 = v;		
+		this.v1 = v;
 	} // end constructor
 
 	public void mouseClicked(MouseEvent e){
@@ -137,7 +142,7 @@ public class GraphPanel extends JPanel{
 
 	public void mouseDragged(MouseEvent e){
 		updateVertex(e);
-	} // end mouseDragged	
+	} // end mouseDragged
 
 	public void mouseReleased(MouseEvent e){
 		updateVertex(e);
@@ -145,27 +150,27 @@ public class GraphPanel extends JPanel{
 
 	public void updateVertex(MouseEvent e){
 		if(currentVertex!=null){
-			currentVertex.setCoordinates(e.getX(),e.getY());		
+			currentVertex.setCoordinates(e.getX(),e.getY());
 			repaint();
 		} // end if
 	} // end updateVertex
-    } // end dragVertexListener 
-	
+    } // end dragVertexListener
+
     public void paintComponent(Graphics g){
 	// paint the graph
 	// First clear the canvas by painting it all with the background color
 	g.setColor(this.getBackground());
 	g.fillRect(0,0,this.getWidth(),this.getHeight());
-	GraphNormal graph = this.getGraph();	
+	GraphNormal graph = this.getGraph();
 
 	// Now draw all the vertices
-	for(int i=0;i<graph.getVertices().size();i++){	
+	for(int i=0;i<graph.getVertices().size();i++){
 		Vertex currentV = graph.getVertex(i);
 		g.setColor(Color.RED);
 		int vX = currentV.getX();
 		int vY = currentV.getY();
 		g.fillOval(vX-5,vY-5,10,10);
-		
+
 	} // end for
 
 	// Draw all the edges
@@ -174,12 +179,12 @@ public class GraphPanel extends JPanel{
 		Edge edge = graph.getEdge(i);
 		Vertex V1 = edge.getV1();
 		Vertex V2 = edge.getV2();
-		// Paint a circle at each vertex and a line for each edge 
+		// Paint a circle at each vertex and a line for each edge
 		int vX1 = V1.getX();
 		int vX2 = V2.getX();
 		int vY1 = V1.getY();
 		int vY2 = V2.getY();
-		
+
 		g.setColor(Color.BLACK);
 		g.drawLine(vX1,vY1,vX2,vY2);
 	} // end for
@@ -196,7 +201,7 @@ public class GraphPanel extends JPanel{
     public void paintVertices(){
 	// Add all the vertices to the graph
 	GraphNormal g = this.graph;
-	
+
     } // end paintVertices
     ***/
 } // end GraphPanel

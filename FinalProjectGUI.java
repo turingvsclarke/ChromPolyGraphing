@@ -5,7 +5,8 @@ import javax.swing.*;
 
 public class FinalProjectGUI extends BasicSwing{
 	GraphPanel gpanel = null;
-	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly;
+	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph;
+	GraphDialog d=new GraphDialog();
 
 	public static void main(String[] args){
 		FinalProjectGUI myGUI = new FinalProjectGUI();
@@ -27,6 +28,7 @@ public class FinalProjectGUI extends BasicSwing{
 		// Add the panel handling the chromatic polynomial to the bottom of the screen
 		PolyPanel pPanel = new PolyPanel();
 		this.contentArea.add(BorderLayout.SOUTH,pPanel);
+		this.repaint();
 
 	} // end constructor
 
@@ -35,7 +37,7 @@ public class FinalProjectGUI extends BasicSwing{
 		public ButtonPanel(){
 			super();
 
-			this.setLayout(new GridLayout(2,1));
+			this.setLayout(new GridLayout(3,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -46,6 +48,11 @@ public class FinalProjectGUI extends BasicSwing{
 			addEdge.addActionListener(new newEdgeListener());
 			this.add(addEdge);
 
+			generateGraph = new JButton("Generate a random graph");
+			generateGraph.addActionListener(new randomGraphListener());
+			this.add(generateGraph);
+			this.setVisible(true);
+			this.repaint();
 		} // end constructor
 
 	} // end ButtonPanel class
@@ -68,6 +75,8 @@ public class FinalProjectGUI extends BasicSwing{
 			polyDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
 			this.add(BorderLayout.WEST, getPoly);
 			this.add(BorderLayout.CENTER, polyDisplay);
+			this.setVisible(true);
+			this.repaint();
 		} // end constructor
 
 		class GetPolyListener implements ActionListener{
@@ -94,4 +103,24 @@ public class FinalProjectGUI extends BasicSwing{
 			gpanel.addEdgeListener();
 		} // end ActionPerformed
 	} // end newEdgeListener
+
+	class randomGraphListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			d.submit.addActionListener(new randomGraphGeneration());
+			d.setVisible(true);
+
+		} // end actionPerformed
+	} // end randomGraphListener
+
+	class randomGraphGeneration implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+				// Get the graph dialog values and send them to the gpanel
+				int vertexSize = d.getVertexSize();
+				int edgeSize = d.getEdgeSize();
+				gpanel.generateGraph(vertexSize,edgeSize);
+				d.setVisible(false);
+		}
+
+	}
+
 } // end finalProjectGUI

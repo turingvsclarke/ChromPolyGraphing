@@ -61,7 +61,7 @@ public class Polynomial extends ArrayList{
         } // end for
         return result;
     } // end addPoly
-    
+
     // Multiply the polynomial by an integer
     public static Polynomial polyByInt(Polynomial p,int x){
         Polynomial result = new Polynomial();
@@ -74,7 +74,7 @@ public class Polynomial extends ArrayList{
     public static Polynomial intByPoly(int x,Polynomial p){
         return Polynomial.polyByInt(p,x);
     } // end intByPoly
-    
+
     public static Polynomial subtractPolys(Polynomial a, Polynomial b){
         Polynomial p = Polynomial.polyByInt(b,-1);
         return Polynomial.addPolys(a,p);
@@ -93,8 +93,7 @@ public class Polynomial extends ArrayList{
         return result;
     } // end multiplyByPolynomial
 
-
-//////// RETURNS THE POLYNOMIAL AS A STRING /////////////////////////////
+    // Return polynomial as a string
     public String getPolyString(String variable){
         int n = this.size();
         String polyString = "";
@@ -125,7 +124,6 @@ public class Polynomial extends ArrayList{
          } // end for
          return polyString;
     } // end getPolyString
-///////////////////////////////////////////////////////////////////////////////
 
 // Increase degree of all the terms of a polynomial
 public void increaseOrder(int n){
@@ -143,5 +141,14 @@ public void increaseOrder(int n){
     	} // end for
      } // end if
 } // end increaseOrder
+
+  public int solvePoly(int x){
+    int result=0;
+    for(int i=0;i<this.size();i++){
+        // Add the ith coeffiecient times the variable to the i
+        result+=((int)(this.get(i)))*(Math.pow(x,i));
+    } // end for
+    return result;
+  } // end solvePoly
 
 } // end class definition
