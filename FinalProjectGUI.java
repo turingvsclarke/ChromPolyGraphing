@@ -5,8 +5,12 @@ import javax.swing.*;
 
 public class FinalProjectGUI extends BasicSwing{
 	GraphPanel gpanel = null;
+<<<<<<< HEAD
 	JButton addVertex, addEdge, getChromPoly, getPoly, simplifyChromPoly, generateGraph, clearGraph;
 	JLabel polyDisplay;
+=======
+	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph;
+>>>>>>> parent of c15302f... Graph generation and erasure work
 	GraphDialog d=new GraphDialog();
 
 	public static void main(String[] args){
@@ -37,7 +41,12 @@ public class FinalProjectGUI extends BasicSwing{
 	class ButtonPanel extends JPanel{
 		public ButtonPanel(){
 			super();
+<<<<<<< HEAD
 			this.setLayout(new GridLayout(4,1));
+=======
+
+			this.setLayout(new GridLayout(3,1));
+>>>>>>> parent of c15302f... Graph generation and erasure work
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -53,12 +62,6 @@ public class FinalProjectGUI extends BasicSwing{
 			this.add(generateGraph);
 			this.setVisible(true);
 			this.repaint();
-
-			clearGraph = new JButton("Clear Screen");
-			clearGraph.addActionListener(new graphEraseListener());
-			this.add(clearGraph);
-			
-
 		} // end constructor
 
 	} // end ButtonPanel class
@@ -119,9 +122,9 @@ public class FinalProjectGUI extends BasicSwing{
 				int edgeSize = d.getEdgeSize();
 				gpanel.generateGraph(vertexSize,edgeSize);
 				d.setVisible(false);
-		} // end actionPerformed
-	} // end randomGraphGeneration
+		}
 
+<<<<<<< HEAD
 	class GetPolyListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				// Convert the polynomial from the graph into a string
@@ -137,4 +140,8 @@ public class FinalProjectGUI extends BasicSwing{
 		} // end actionPerformed
 	} // end graphEraseListener
 	
+=======
+	}
+
+>>>>>>> parent of c15302f... Graph generation and erasure work
 } // end finalProjectGUI
