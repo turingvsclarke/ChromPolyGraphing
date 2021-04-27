@@ -5,13 +5,11 @@ import javax.swing.*;
 
 public class FinalProjectGUI extends BasicSwing{
 	GraphPanel gpanel = null;
-<<<<<<< HEAD
-	JButton addVertex, addEdge, getChromPoly, getPoly, simplifyChromPoly, generateGraph, clearGraph;
-	JLabel polyDisplay;
-=======
-	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph;
->>>>>>> parent of c15302f... Graph generation and erasure work
+	JButton addVertex, addEdge, getChromPoly, getPoly, simplifyChromPoly, generateGraph, clearGraph, solvePolyNomial;
+	JLabel polyDisplay,solution;
+	SpinnerNumberModel sModel=new SpinnerNumberModel();
 	GraphDialog d=new GraphDialog();
+	SolveDialog s = new SolveDialog();
 
 	public static void main(String[] args){
 		FinalProjectGUI myGUI = new FinalProjectGUI();
@@ -42,7 +40,8 @@ public class FinalProjectGUI extends BasicSwing{
 		public ButtonPanel(){
 			super();
 
-			this.setLayout(new GridLayout(4,1));
+			this.setLayout(new GridLayout(5,1));
+			// this.setLayout(new GridLayout(6,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -52,12 +51,24 @@ public class FinalProjectGUI extends BasicSwing{
 			addEdge = new JButton("Add a new edge to the graph");
 			addEdge.addActionListener(new newEdgeListener());
 			this.add(addEdge);
-
+			/***
+			JButton storeGraph = new JButton("Save Graph");
+			storeGraph.addActionListener(new GraphSaveListener());
+			this.add(storeGraph);
+			***/
 			generateGraph = new JButton("Generate a random graph");
 			generateGraph.addActionListener(new randomGraphListener());
 			this.add(generateGraph);
 			this.setVisible(true);
 			this.repaint();
+
+			clearGraph = new JButton("Clear Screen");
+			clearGraph.addActionListener(new graphEraseListener());
+			this.add(clearGraph);
+
+			solvePolyNomial = new JButton("Solve Polynomial");
+			solvePolyNomial.addActionListener(new makeSolveDialog());
+			this.add(solvePolyNomial);
 		} // end constructor
 
 	} // end ButtonPanel class
@@ -86,6 +97,23 @@ public class FinalProjectGUI extends BasicSwing{
 		} // end constructor
 
 	} // end PolyPanel class def
+
+	class SolveDialog extends JDialog{
+			public SolveDialog(){
+				this.setSize(400,300);
+        this.setResizable(false);
+				this.setLayout(new FlowLayout());
+				JSpinner input = new JSpinner(sModel);
+				solution = new JLabel();
+				this.add(input);
+				this.add(solution);
+				JButton getSolution = new JButton("Solve");
+				getSolution.addActionListener(new SolvePolynomialListener());
+				this.add(getSolution);
+		} // end constructor
+	} // end solveDialog
+
+
 
 	// This listener waits for the addVertex button to be clicked, then tells the graphPanel to get ready for a new vertex
 	class newVertexListener implements ActionListener{
@@ -118,15 +146,8 @@ public class FinalProjectGUI extends BasicSwing{
 				int edgeSize = d.getEdgeSize();
 				gpanel.generateGraph(vertexSize,edgeSize);
 				d.setVisible(false);
-		}
-
-	class GetPolyListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
-				// Convert the polynomial from the graph into a string
-				String polynomial = gpanel.getGraph().getChromPoly().getPolyString("q");
-				polyDisplay.setText(polynomial);
-			} // end ActionPerformed
-	} // end GetPolyListener
+		} // end actionPerformed
+	} // end randomGraphGeneration
 
 	class graphEraseListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
@@ -135,5 +156,34 @@ public class FinalProjectGUI extends BasicSwing{
 		} // end actionPerformed
 	} // end graphEraseListener
 
-	}
+	class GraphSaveListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			// Reset the graph
+			gpanel.storeGraph();
+		}
+	} // end GraphLoadListener
+
+	class GetPolyListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				// Convert the polynomial from the graph into a string
+				String polynomial = gpanel.getGraph().getChromPoly().getPolyString("q");
+				polyDisplay.setText(polynomial);
+			} // end actionPerformed
+	} // end GetPolyListener
+
+	class makeSolveDialog implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			s.setVisible(true);
+		}
+	} // end makeSolveDialog
+
+	class SolvePolynomialListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				int sol = gpanel.getGraph().getChromPoly().solvePoly((int)sModel.getNumber());
+				solution.setText("Solution: " + sol);
+			}  // end actionPerformed
+	} // end SolvePolynomialListener
+
+
+
 } // end finalProjectGUI

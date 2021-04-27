@@ -2,6 +2,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 public class GraphDialog extends JDialog{
     JSpinner vSpin,eSpin;
@@ -22,7 +23,7 @@ public class GraphDialog extends JDialog{
         vModel = new SpinnerNumberModel();
         vModel.setMinimum(0);
         vSpin = new JSpinner(vModel);
-        vSpin.addInputMethodListener(new VchangeListener());
+        vSpin.addChangeListener(new VchangeListener());
         vPane.add(BorderLayout.WEST,vLab);
         vPane.add(BorderLayout.EAST,vSpin);
 
@@ -32,7 +33,7 @@ public class GraphDialog extends JDialog{
         eLab = new JLabel("Edges:");
         eModel = new SpinnerNumberModel(0,0,0,1);
         eSpin = new JSpinner(eModel);
-        eSpin.addInputMethodListener(new EchangeListener());
+        eSpin.addChangeListener(new EchangeListener());
         ePane.add(BorderLayout.WEST,eLab);
         ePane.add(BorderLayout.EAST,eSpin);
         this.add(ePane);
@@ -40,14 +41,14 @@ public class GraphDialog extends JDialog{
 
     } // end GraphDialog
 
-    class EchangeListener implements InputMethodListener{
-      public void stateChange(InputMethodEvent e){
+    class EchangeListener implements ChangeListener{
+      public void stateChanged(ChangeEvent e){
           setEdgeSize((int)eModel.getNumber());
       } // end state Change
     } // end EchangeListener
 
     class VchangeListener implements ChangeListener{
-      public void stateChange(InputMethodEvent e){
+      public void stateChanged(ChangeEvent e){
           int currentV = (int)(vModel.getNumber());
           int vMath = ((currentV)*(currentV-1))/2;
           setVertexSize(currentV);

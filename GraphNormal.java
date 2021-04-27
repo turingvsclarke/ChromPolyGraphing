@@ -1,7 +1,7 @@
 // GraphNormal.java
 // rewriting the entire graph using lists of vertices and edges, rather than an adjacency list
-
-import java.util.ArrayList;
+import java.util.*;
+import java.io.*;
 
 public class GraphNormal implements Cloneable{
     ArrayList Edges = new ArrayList();
@@ -274,6 +274,7 @@ public class GraphNormal implements Cloneable{
 
         return chromPoly;
     } // end getChromPoly
+
     //***/
     /***
     // Chromatic Polynomial Calculations using recursion

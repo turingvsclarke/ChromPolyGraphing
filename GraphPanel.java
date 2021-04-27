@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.io.*;
 
 public class GraphPanel extends JPanel{
     int height;
@@ -21,7 +22,7 @@ public class GraphPanel extends JPanel{
     } // end constructor
 
     public void generateGraph(int v,int e){
-      this.graph = new GraphNormal(v,e,this.getHeight(),this.getWidth());
+      this.graph = new GraphNormal(v,e,this.getWidth(),this.getHeight());
       repaint();
     } // end generateGraph
 
@@ -195,6 +196,36 @@ public class GraphPanel extends JPanel{
 	return this.graph;
 	} // end getter
 
+  // FILE IO
+  // Store a graph
+  public void storeGraph(){
+    // Put the current graph in a file
+    try{
+      FileOutputStream file = new FileOutputStream("Graphs.dat");
+      ObjectOutputStream objectFile = new ObjectOutputStream(file);
+      objectFile.writeObject(this.getGraph());
+
+    }catch(Exception e){
+      System.out.println(e.getMessage());
+      System.out.println("Saving data failed");
+    } // end catch
+
+  } // end storeGraph
+/***
+  public void loadGraph(){
+      try{
+        // ArrayList savedGraphs = new ArrayList();
+        FileInputStream file = new FileInputStream("Graphs.dat");
+        while(objectFile.hasNext())
+
+      }catch(Exception e){
+
+
+      } // end catch
+
+
+  } // end loadGraph
+***/
 
     // Old method for when vertices were buttons
     /***
