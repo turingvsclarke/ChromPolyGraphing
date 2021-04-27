@@ -5,7 +5,8 @@ import javax.swing.*;
 
 public class FinalProjectGUI extends BasicSwing{
 	GraphPanel gpanel = null;
-	JButton addVertex, addEdge, getChromPoly, simplifyChromPoly, generateGraph, clearGraph;
+	JButton addVertex, addEdge, getChromPoly, getPoly, simplifyChromPoly, generateGraph, clearGraph;
+	JLabel polyDisplay;
 	GraphDialog d=new GraphDialog();
 
 	public static void main(String[] args){
@@ -28,8 +29,8 @@ public class FinalProjectGUI extends BasicSwing{
 		// Add the panel handling the chromatic polynomial to the bottom of the screen
 		PolyPanel pPanel = new PolyPanel();
 		this.contentArea.add(BorderLayout.SOUTH,pPanel);
+		pPanel.setSize(this.getWidth(),200);
 		this.repaint();
-
 	} // end constructor
 
 	// Create a panel with all the buttons for the GUI
@@ -37,7 +38,7 @@ public class FinalProjectGUI extends BasicSwing{
 		public ButtonPanel(){
 			super();
 
-			this.setLayout(new GridLayout(4,1));
+			this.setLayout(new GridLayout(5,1));
 			// Add a button onto the frame for adding vertices and add something to listen for it
 			addVertex = new JButton("Add new vertex");
 			addVertex.addActionListener(new newVertexListener());
@@ -54,6 +55,10 @@ public class FinalProjectGUI extends BasicSwing{
 			this.setVisible(true);
 			this.repaint();
 
+			getPoly = new JButton("Display Chromatic Polynomial");
+			getPoly.addActionListener(new GetPolyListener()); 
+			this.add(getPoly);
+	
 			clearGraph = new JButton("Clear Screen");
 			clearGraph.addActionListener(new graphEraseListener());
 			this.add(clearGraph);
@@ -65,33 +70,24 @@ public class FinalProjectGUI extends BasicSwing{
 
 	// Create a panel to add on to the bottom of the GUI for displaying the polynomial
 	class PolyPanel extends JPanel{
-		JLabel polyDisplay;
 		JButton getPoly;
 
 		public PolyPanel(){
 			// Put a border on it
+			this.setLayout(new GridLayout(1,3));
+			// Put a border on it
 			this.setBorder(BorderFactory.createLineBorder(Color.black));
 			// Put a button on the left side
-			JButton getPoly = new JButton("Display Chromatic Polynomial");
-
-			getPoly.addActionListener(new GetPolyListener());
-
+			
 			polyDisplay = new JLabel();
-			polyDisplay.setSize(300,100);
+			polyDisplay.setSize(300,200);
 			polyDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
-			this.add(BorderLayout.WEST, getPoly);
-			this.add(BorderLayout.CENTER, polyDisplay);
+			this.add(polyDisplay);
 			this.setVisible(true);
 			this.repaint();
 		} // end constructor
 
-		class GetPolyListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
-				// Convert the polynomial from the graph into a string
-				String polynomial = gpanel.getGraph().getChromPoly().getPolyString("q");
-				polyDisplay.setText(polynomial);
-			} // end ActionPerformed
-		} // end GetPolyListener class def
+		
 	} // end PolyPanel class def
 
 	// This listener waits for the addVertex button to be clicked, then tells the graphPanel to get ready for a new vertex
@@ -127,6 +123,14 @@ public class FinalProjectGUI extends BasicSwing{
 				d.setVisible(false);
 		} // end actionPerformed
 	} // end randomGraphGeneration
+
+	class GetPolyListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				// Convert the polynomial from the graph into a string
+				String polynomial = gpanel.getGraph().getChromPoly().getPolyString("q");
+				polyDisplay.setText(polynomial);
+			} // end ActionPerformed
+	} // end GetPolyListener class dev
 
 	class graphEraseListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
