@@ -1,3 +1,6 @@
+jar: FinalProjectGUI.class
+	jar cvfm ChromPolyGraph.jar manifest.txt *.class
+
 runGUI: FinalProjectGUI.class
 	java FinalProjectGUI
 	make clean
